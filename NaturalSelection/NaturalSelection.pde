@@ -1,6 +1,6 @@
 public static final int screenWidth=800;
-public static final int screenHeight=800;
-private float fps;
+public static final int screenHeight=1000;
+private float fps;//Number of frames per second. In other words, the number of cycles per second.
 
 //#UI sizes: fields stored here for setting up/using the GUI
  private float UIHeight=screenHeight/8;
@@ -9,10 +9,15 @@ private float fps;
  private float speedButtonHeight=UIHeight/2;
  private float UITop = screenHeight-UIHeight;
  private float speedButtonLeft = 0;
- //private float
- //private float
- //private float
- //private float
+ 
+ //#Region Specifications
+ private float regionTop = 100;
+ private float regionLeft = 100;
+ private float regionHeight = 600;
+ private float regionWidth = 600;
+ 
+ //#Fields regarding entities!
+ private ArrayList<Entity> currentGeneration;
 
 
 void settings(){//Used for specifying the height and width of size(). It's a quirk of processing.
@@ -20,13 +25,17 @@ void settings(){//Used for specifying the height and width of size(). It's a qui
 }
 
 void setup(){
-  fps=10;//Initial framerate.
+  fps=60;//Initial framerate.
   frameRate(fps);
+  currentGeneration = new ArrayList<Entity>();
+  for(int i=0; i<50; i++){
+    currentGeneration.add(new Entity());}
   
 
 }
 
 public void drawGUI(){//Draws a scaling GUI.
+ fill(255);
  noStroke();
  rect(0,UITop,UIWidth,UIHeight);//Draws the container "bar" of the UI. 
  stroke(2);
@@ -45,7 +54,12 @@ void draw(){
   frameRate(fps);
   background(0);//Sets background to black. In other words, wipes the screen
   drawGUI();
-  rect(screenWidth/2, screenHeight/2, random(75), random(75));
+  fill(220);
+  rect(regionLeft, regionTop, regionWidth, regionHeight);//Draw the region itself.
+  for(Entity e: currentGeneration){
+    e.render();
+    e.step();
+  }
   
   
   
