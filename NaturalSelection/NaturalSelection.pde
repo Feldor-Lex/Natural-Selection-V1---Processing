@@ -18,6 +18,8 @@ private float fps;//Number of frames per second. In other words, the number of c
  
  //#Fields regarding entities!
  private ArrayList<Entity> currentGeneration;
+ private ArrayList<Food> currentFood;
+ private int foodAmount=100;
 
 
 void settings(){//Used for specifying the height and width of size(). It's a quirk of processing.
@@ -28,11 +30,16 @@ void setup(){
   fps=60;//Initial framerate.
   frameRate(fps);
   currentGeneration = new ArrayList<Entity>();
+  currentFood = new ArrayList<Food>();
   for(int i=0; i<50; i++){
     currentGeneration.add(new Entity());}
-  
+  for(int i=0; i<foodAmount; i++){
+    currentFood.add(new Food());
+  }
 
 }
+
+
 
 public void drawGUI(){//Draws a scaling GUI.
  fill(255);
@@ -59,6 +66,12 @@ void draw(){
   for(Entity e: currentGeneration){
     e.render();
     e.step();
+    for(Food f: currentFood){
+        circleCollision(e,f); 
+    }
+  }
+  for(Food f: currentFood){
+   f.render(); 
   }
   
   
@@ -80,5 +93,15 @@ void mouseReleased(){//The mouselistener!
     }
   }
   
+  
+}
+
+public void circleCollision(Entity e, Food f){
+  if(e.getPosition().dist(f.getPosition())<((e.getSize()/2)+(f.getSize()/2))&&!f.hasBeenEaten()){//If the food and an entity overlap, and the food hasn't been eaten...
+   f.eat(); //Tell the food it's been eaten
+   e.eatFood(); //Tell the entity to increase it's "food eaten" score by 1.
+
+  }
+
   
 }
