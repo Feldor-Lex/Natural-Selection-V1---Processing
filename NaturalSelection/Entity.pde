@@ -31,7 +31,7 @@ class Entity{
     r=random(128);//Neutral colouring.
     g=random(128);
     b=random(128);
-    energy=600;//Default starting energy is 100.
+    energy=100;//Default starting energy is 100.
     this.assignStartingPoint();
     size=10;
     turnyness=0.03;
